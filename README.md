@@ -1,7 +1,31 @@
-این مخزن شامل دو پروژه ساده جاواست.
+# JavaFundamentals
 
-در پروژه TryCatchFinallyExample برنامه یک فایل را خوانده و اطلاعات هر خط آن‌را به‌عنوان یک داده از نوع String در یک HashSet ذخیره می‌کند سپس داده‌ها را در خروجی چاپ می‌کند.
-فایل ورودی باید به‌عنوان آرگومان به اپلیکیشن داده شود در غیر این‌صورت در زمان اجرای برنامه از کاربر پرسیده می‌شود. یک فایل نمونه با عنوان file.txt برای تست در مسیر روت پروژه قرار دارد.
+This repository contains two projects, and you can use them side by side in IntellijIdea.
 
-پروژه TryWithResourcesExample همانند پروژه قبلی بوده با این تفاوت که از Try with resource استفاده می‌کند و اطلاعات را به‌عنوان Integer می‌خواند. درصورت عددی نبودن هر خط به کاربر خطا نمایش داده شده ولی برنامه به کار خودش ادامه می‌دهد و در نهایت خطهای بدون مشکل را بدون تکرار در فایل خروجی ذخیره می‌کند.
-ورودی این برنامه مانند پروژه قبل فایلی را به عنوان ورودی می‌خواهد که از آن بخواند و به‌عنوان آرگومان دوم نام فایلی که در آن اطلاعات را ذخیره کند. درصورتی‌که به‌عنوان آرگومان نام فایل‌ها مشخص نشود در زمان اجرا از کاربر پرسیده می‌شود. file.txt مخصوص این پروژه برای تست نیز در دایرکتوری روت موجود می‌باشد.
+## Requirements
+
+This project needs java 8+ and because use of .iml for defining multi modules should be opened by IntellijIdea or any IDE that supports this file extension.
+
+## Modules
+### **[utils](/utils)**
+This module contains several helper classes and some useful static methods like ```CodeUtils.measureExecutionTime()``` that will measure given methods running duration.
+Also, this module doesn't have any main method, so it can't run by itself.
+
+### **[TryCatchFinallyExample](/TryCatchFinallyExample)**
+This module is a small java project that read data line by line from given file.
+You can run this module in IntellijIdea and add input file in 'Program arguments' or you can download jar from releases and run like this:
+```bash
+java -jar TryCatchFinallyExample.jar inputFile
+```
+If you don't specify input file in IDE or commandline you will be asked in runtime.
+
+### **[TryWithResourcesExample](/TryWithResourcesExample)**
+This module is really similar to previous one with little exceptions:
+- This module uses Try with resource (as you can see in the module names :) )
+- Every line of input file should be integer or otherwise the line would be ignored (with a warning in console).
+- The non duplicated file that doesn't contain non integer data.
+You can run this module pretty much like the previous one, with extra work of adding output file, or you'll be asked in runtime.
+  ```bash
+  java -jar TryWithResourcesExample.jar inputFile outputFile
+
+```

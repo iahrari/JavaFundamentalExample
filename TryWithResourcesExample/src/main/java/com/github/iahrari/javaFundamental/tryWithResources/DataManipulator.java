@@ -1,50 +1,40 @@
+package com.github.iahrari.javaFundamental.tryWithResources;
+
+import com.github.iahrari.javaFundamental.util.AbstractDataReader;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 
-public class DataReader {
-    private final Set<Integer> data;
-    private final String readFromFile;
+public class DataManipulator extends AbstractDataReader<Integer> {
     private final String writeToFile;
 
-    DataReader(String readFromFile, String writeToFile){
-        data = new HashSet<>();
-        this.readFromFile = readFromFile;
+    public DataManipulator(String readFromFile, String writeToFile){
+        super(readFromFile);
         this.writeToFile = writeToFile;
     }
 
-    public Iterator<Integer> getData(){
-        return data.iterator();
-    }
-
+    @Override
     public void run(){
         try(
             BufferedReader reader = new BufferedReader(new FileReader(readFromFile));
             BufferedWriter writer = new BufferedWriter(new FileWriter(writeToFile))
         ) {
-            readLine(writer, reader, data);
+            readInt(writer, reader);
         } catch (FileNotFoundException e) {
             System.err.printf("\nCouldn't find %s\n", readFromFile);
         } catch (IOException e) {
             System.err.printf("Couldn't write to %s\n", writeToFile);
-        } finally {
-            if (!data.isEmpty()) {
-                System.out.printf("\nCorrect file is saved at %s", writeToFile);
-            }
         }
+
+        if (!data.isEmpty()) 
+            System.out.printf("\nCorrect file is saved at %s", writeToFile);
     }
 
-    private void readLine(
-            BufferedWriter writer,
-            BufferedReader reader,
-            Set<Integer> data
-    ){
+    private void readInt(BufferedWriter writer, BufferedReader reader){
         int index = 0;
         String line;
         while(true) {
@@ -52,7 +42,6 @@ public class DataReader {
                 line = reader.readLine();
                 if (line == null) break;
                 boolean isNotRepeated = data.add(convertStringToInt(line, ++index));
-                
                 
                 if(isNotRepeated) {
                     if (index != 1) writer.append("\n");
@@ -70,19 +59,15 @@ public class DataReader {
         }
     }
 
-    private int convertStringToInt(
-            String data, int index
-    ) throws WrongDataTypeException {
-        int integer;
+    private int convertStringToInt(String data, int index)
+            throws WrongDataTypeException {
+        int convertedInteger;
         try {
-            integer = Integer.parseInt(data);
+            convertedInteger = Integer.parseInt(data);
         } catch (NumberFormatException e) {
-            throw new WrongDataTypeException(
-                data, 
-                "Data in line " + index + " is not a correct number", 
-                index, e
-            );
+            throw new WrongDataTypeException(data, index,
+                    String.format("Couldn't convert '%s' from line: %d\n", data, index), e);
         }
-        return integer;
+        return convertedInteger;
     }
 }
